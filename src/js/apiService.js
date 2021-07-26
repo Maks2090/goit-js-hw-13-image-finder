@@ -7,9 +7,9 @@ const API_KEY = '22631674-5d368c2f6a01c7affe232da9d';
 export default class NewsApiService {
     constructor(){
         this.searchQuery = '';
-        this.per_page = 100;
+        this.per_page = 40;
         this.page = 1;
-       
+        this.totalHits = 500;
 
     }
 

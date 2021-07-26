@@ -20,6 +20,8 @@ refs.serchForm.addEventListener('submit', onSearch);
 refs.btnLoadMore.addEventListener('click', onLoardMore);
 
 refs.btnLoadMore.disabled = true;
+let totalpage = 0;
+totalpage = newsApiService.per_page * newsApiService.page
 
 function onSearch(e){
   e.preventDefault();
@@ -34,37 +36,39 @@ function onSearch(e){
   newsApiService.resetPage()
   newsApiService.fetchArticals()
     
-  .then(appendArticlesMarkup)
+  .then(data => {
+    if(data.length === 0) {
+            Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            return
+          }
+          else if(data.length >= 1 ){
+                Notiflix.Notify.success('Success')
+                refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
+                totalpage = newsApiService.per_page * newsApiService.page
+            }
+            else if(totalpage >= newsApiService.totalHits){
+                    Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+                    refs.btnLoadMore.disabled = true;
+                }
+  })
   
   
 }
+
  
 function onLoardMore(){
     if(newsApiService.query.trim() === ''){
         return
     }
-    newsApiService.fetchArticals().then(appendArticlesMarkup)
+    newsApiService.fetchArticals().then(data =>{
+        totalpage = newsApiService.per_page * newsApiService.page
+         if(totalpage >= newsApiService.totalHits){
+            Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+            refs.btnLoadMore.disabled = true;
+        }
+        refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
+    })
 }
-
-
-function appendArticlesMarkup(data){
-  if(data.length === 0) {
-    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-    return
-  }
-  else if(data.length >= 1 ){
-    Notiflix.Notify.success('Success')
-    refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
-  }
-
-//   else if(){
-//     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
-//     refs.btnLoadMore.disabled = true;
-    
-//   }
-//  refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
-}
-
 
 
 
