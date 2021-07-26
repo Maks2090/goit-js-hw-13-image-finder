@@ -1,7 +1,7 @@
 import NewsApiService from './js/apiService';
 import articalesTpl from './template/articales.hbs';
 import Notiflix from 'notiflix';
-import axios from 'axios';
+
 import './sass/main.scss';
 
 
@@ -11,6 +11,7 @@ const refs = {
   serchForm : document.querySelector('#search-form'),
   btnLoadMore : document.querySelector('.js-load-more'),
   gallery : document.querySelector('.gallery'),
+  
 }
 
 const newsApiService = new NewsApiService();
@@ -50,7 +51,7 @@ function onSearch(e){
                     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
                     refs.btnLoadMore.disabled = true;
                 }
-  })
+  }).catch(()=>{Notiflix.Notify.failure('"Sorry, please try again');})
   
   
 }
@@ -67,7 +68,7 @@ function onLoardMore(){
             refs.btnLoadMore.disabled = true;
         }
         refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
-    })
+    }).catch(()=>{Notiflix.Notify.failure('"Sorry, please try again');})
 }
 
 
@@ -75,3 +76,4 @@ function onLoardMore(){
 function clearArticlesContainer(){
     refs.gallery.innerHTML = ''
 }
+

@@ -13,17 +13,19 @@ export default class NewsApiService {
 
     }
 
-    fetchArticals(){
+   async fetchArticals(){
         const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&page=${this.page}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${this.per_page}`
-      return  fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            this.incrementPage()
+    //   return  fetch(url)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         this.incrementPage()
             
-            return data.hits
-        });
+    //         return data.hits
+    //     });
       
-     
+     const response = await axios.get(url)
+     this.incrementPage()
+     return response.data.hits
         
     }
 
