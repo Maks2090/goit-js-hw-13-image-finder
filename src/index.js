@@ -22,7 +22,7 @@ refs.btnLoadMore.addEventListener('click', onLoardMore);
 
 refs.btnLoadMore.disabled = true;
 let totalpage = 0;
-totalpage = newsApiService.per_page * newsApiService.page
+
 
 function onSearch(e){
   e.preventDefault();
