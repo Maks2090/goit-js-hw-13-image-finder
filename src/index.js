@@ -43,6 +43,7 @@ function onSearch(e){
   .then(data => {
     if(data.length === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            refs.btnLoadMore.style.display ="none";
             return
           }
           else if(data.length >= 1 ){
