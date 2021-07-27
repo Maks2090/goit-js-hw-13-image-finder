@@ -21,15 +21,18 @@ refs.serchForm.addEventListener('submit', onSearch);
 refs.btnLoadMore.addEventListener('click', onLoardMore);
 
 refs.btnLoadMore.disabled = true;
+refs.btnLoadMore.style.display ="none";
 let totalpage = 0;
+
 
 
 function onSearch(e){
   e.preventDefault();
   refs.btnLoadMore.disabled = false ;
-   
+  refs.btnLoadMore.style.display = "inline"
   clearArticlesContainer()
   newsApiService.query = e.currentTarget.elements.query.value;
+
   if(newsApiService.query.trim() === ''){
       
       return
@@ -49,7 +52,7 @@ function onSearch(e){
             }
             else if(totalpage >= newsApiService.totalHits){
                     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
-                    refs.btnLoadMore.disabled = true;
+                    refs.btnLoadMore.style.display ="none"
                 }
   }).catch(()=>{Notiflix.Notify.failure('"Sorry, please try again');})
   
@@ -65,7 +68,7 @@ function onLoardMore(){
         totalpage = newsApiService.per_page * newsApiService.page
          if(totalpage >= newsApiService.totalHits){
             Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
-            refs.btnLoadMore.disabled = true;
+            refs.btnLoadMore.style.display ="none"
         }
         refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
     }).catch(()=>{Notiflix.Notify.failure('"Sorry, please try again');})
