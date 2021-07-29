@@ -29,7 +29,7 @@ let totalpage = 0;
 function onSearch(e){
   e.preventDefault();
   refs.btnLoadMore.disabled = false ;
-  refs.btnLoadMore.style.display = "inline"
+
   clearArticlesContainer()
   newsApiService.query = e.currentTarget.elements.query.value;
 
@@ -50,6 +50,7 @@ function onSearch(e){
                 Notiflix.Notify.success('Success')
                 refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
                 totalpage = newsApiService.per_page * newsApiService.page
+                refs.btnLoadMore.style.display = "inline"
             }
             else if(totalpage >= newsApiService.totalHits){
                     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
