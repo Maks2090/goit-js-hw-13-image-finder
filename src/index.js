@@ -20,7 +20,7 @@ const newsApiService = new NewsApiService();
 refs.serchForm.addEventListener('submit', onSearch);
 refs.btnLoadMore.addEventListener('click', onLoardMore);
 
-refs.btnLoadMore.disabled = true;
+// refs.btnLoadMore.disabled = true;
 refs.btnLoadMore.style.display ="none";
 let totalpage = 0;
 
@@ -28,8 +28,7 @@ let totalpage = 0;
 
 function onSearch(e){
   e.preventDefault();
-  refs.btnLoadMore.disabled = false ;
-
+  
   clearArticlesContainer()
   newsApiService.query = e.currentTarget.elements.query.value;
 
@@ -37,6 +36,7 @@ function onSearch(e){
       
       return
   }
+  refs.btnLoadMore.style.display ="none";
   newsApiService.resetPage()
   newsApiService.fetchArticals()
     
@@ -63,16 +63,24 @@ function onSearch(e){
 
  
 function onLoardMore(){
+    
     if(newsApiService.query.trim() === ''){
         return
     }
+    
     newsApiService.fetchArticals().then(data =>{
+        
+       
+        
         totalpage = newsApiService.per_page * newsApiService.page
+        
          if(totalpage >= newsApiService.totalHits){
             Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
             refs.btnLoadMore.style.display ="none"
         }
         refs.gallery.insertAdjacentHTML('beforeend', articalesTpl(data))
+        
+        
     }).catch(()=>{Notiflix.Notify.failure('"Sorry, please try again');})
 }
 
